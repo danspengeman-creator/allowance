@@ -13,7 +13,8 @@
     --teal: #0F6E56;
     --teal-light: #E1F5EE;
     --teal-mid: #1D9E75;
-    --amber: #854F0B;
+    --amber: #9A5000;
+    --amber-mid: #D4700A;
     --amber-light: #FAEEDA;
     --bg: #F7F6F2;
     --card: #FFFFFF;
@@ -24,96 +25,26 @@
     --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0 0 3rem;
-  }
-  header {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 1.1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.25rem;
-    color: var(--text);
-    letter-spacing: -0.01em;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 3rem; }
+
+  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text); }
   .logo span { color: var(--purple); }
-  .week-badge {
-    font-size: 0.75rem;
-    font-weight: 600;
-    background: var(--amber-light);
-    color: var(--amber);
-    padding: 4px 10px;
-    border-radius: 99px;
-    letter-spacing: 0.02em;
-  }
+  .week-badge { font-size: 0.75rem; font-weight: 600; background: var(--amber-light); color: var(--amber); padding: 4px 10px; border-radius: 99px; }
+
   .main { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 0; }
 
-  /* Tab nav */
-  .tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1.25rem;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 5px;
-    box-shadow: var(--shadow);
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 0.6rem 1rem;
-    border: none;
-    background: transparent;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--muted);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.18s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; background: var(--card); border-radius: var(--radius); padding: 5px; box-shadow: var(--shadow); }
+  .tab-btn { flex: 1; padding: 0.6rem 1rem; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--muted); border-radius: 10px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .tab-btn.active-l { background: var(--purple-light); color: var(--purple); }
   .tab-btn.active-n { background: var(--teal-light); color: var(--teal); }
-  .tab-dot {
-    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-  }
+  .tab-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .dot-l { background: var(--purple); }
   .dot-n { background: var(--teal); }
 
   /* Summary card */
-  .summary-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .summary-avatar {
-    width: 52px; height: 52px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    flex-shrink: 0;
-  }
+  .summary-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .summary-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.4rem; flex-shrink: 0; }
   .avatar-l { background: var(--purple-light); color: var(--purple); }
   .avatar-n { background: var(--teal-light); color: var(--teal); }
   .summary-info { flex: 1; min-width: 120px; }
@@ -121,169 +52,116 @@
   .summary-sub { font-size: 0.82rem; color: var(--muted); }
   .summary-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
   .stat-block { text-align: center; }
-  .stat-val {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    line-height: 1;
-    margin-bottom: 2px;
-  }
+  .stat-val { font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1; margin-bottom: 2px; }
   .stat-val-l { color: var(--purple); }
   .stat-val-n { color: var(--teal); }
   .stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  /* Progress bar */
-  .progress-wrap { margin-bottom: 1rem; }
-  .progress-track {
-    height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 4px;
-  }
-  .progress-fill {
-    height: 100%; border-radius: 99px; transition: width 0.35s cubic-bezier(.4,0,.2,1);
-  }
-  .fill-l { background: var(--purple); }
-  .fill-n { background: var(--teal-mid); }
-  .progress-label { font-size: 0.78rem; color: var(--muted); display: flex; justify-content: space-between; }
-  .earned-badge {
-    display: inline-block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 2px 10px;
-    border-radius: 99px;
-    margin-left: 6px;
-  }
-  .badge-l { background: var(--purple-light); color: var(--purple); }
-  .badge-n { background: var(--teal-light); color: var(--teal); }
-  .badge-no { background: var(--amber-light); color: var(--amber); }
-
   /* Chore list */
-  .chore-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
-  .chore-item {
-    background: var(--card);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 0.85rem 1rem;
-    cursor: pointer;
-    transition: transform 0.12s, box-shadow 0.12s;
-    border: 1.5px solid transparent;
-    user-select: none;
-  }
+  .chore-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.25rem; }
+  .chore-item { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem; cursor: pointer; transition: background 0.15s, border-color 0.15s, transform 0.1s; border: 1.5px solid transparent; user-select: none; }
   .chore-item:active { transform: scale(0.985); }
   .chore-item.done-l { border-color: var(--purple-mid); background: var(--purple-light); }
   .chore-item.done-n { border-color: var(--teal-mid); background: var(--teal-light); }
-  .chore-check {
-    width: 22px; height: 22px; border-radius: 6px;
-    border: 2px solid #ccc;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-    background: white;
-  }
+  .chore-item.done-bonus { border-color: var(--amber-mid); background: var(--amber-light); }
+
+  .chore-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #ccc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: white; }
   .chore-item.done-l .chore-check { background: var(--purple); border-color: var(--purple); }
   .chore-item.done-n .chore-check { background: var(--teal-mid); border-color: var(--teal-mid); }
+  .chore-item.done-bonus .chore-check { background: var(--amber-mid); border-color: var(--amber-mid); }
   .checkmark { display: none; width: 12px; height: 12px; }
   .chore-item.done-l .checkmark,
-  .chore-item.done-n .checkmark { display: block; }
+  .chore-item.done-n .checkmark,
+  .chore-item.done-bonus .checkmark { display: block; }
+
   .chore-text { flex: 1; }
   .chore-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
   .chore-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
   .chore-item.done-l .chore-title { color: var(--purple); }
   .chore-item.done-n .chore-title { color: var(--teal); }
+  .chore-item.done-bonus .chore-title { color: var(--amber-mid); }
 
-  /* Controls */
-  .controls {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-  .ctrl-btn {
-    padding: 0.55rem 1rem;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
+  .bonus-pill { font-size: 0.68rem; font-weight: 700; background: var(--amber-light); color: var(--amber-mid); border: 1px solid #F0C88A; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; white-space: nowrap; }
+
+  .status-badge { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; margin-top: 5px; }
+  .badge-l { background: var(--purple-light); color: var(--purple); }
+  .badge-n { background: var(--teal-light); color: var(--teal); }
+  .badge-no { background: #F0F0F0; color: var(--muted); }
+  .badge-bonus { background: var(--amber-light); color: var(--amber-mid); }
+
+  /* ── Full-width counter bar ─────────────────────────────── */
+  .counter-bar-wrap {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
     background: var(--card);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+    padding: 0.6rem 1rem 0.75rem;
+    z-index: 50;
   }
+  .counter-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .cbl-req { color: var(--muted); }
+  .cbl-bonus { color: var(--amber-mid); }
+  .counter-circles {
+    display: flex;
+    gap: 0;
+    align-items: center;
+    width: 100%;
+  }
+  .c-circle {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 2px solid #E0E0E0;
+    background: #F5F5F5;
+    color: #bbb;
+    margin: 0 2px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .c-circle.filled-req-l { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple); }
+  .c-circle.filled-req-n { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
+  .c-circle.filled-bonus { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber-mid); transform: scale(1.08); }
+  .c-circle.threshold { border-style: dashed; border-color: #bbb; }
+
+  /* Allowance card */
+  .allowance-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .allowance-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
+  .allowance-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .allowance-row:last-child { border-bottom: none; font-weight: 600; }
+  .allowance-amt { font-weight: 600; }
+  .amt-bonus { color: var(--amber-mid); }
+
+  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .ctrl-btn { padding: 0.55rem 1rem; border-radius: 8px; border: 1.5px solid var(--border); background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .ctrl-btn:hover { border-color: #aaa; color: var(--text); }
   .ctrl-btn.danger { color: #c0392b; border-color: #f5c6c6; }
   .ctrl-btn.danger:hover { background: #fff5f5; }
 
-  /* Reset week modal */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.35);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
+  /* Spacer so content doesn't hide behind fixed bar */
+  .bar-spacer { height: 90px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    max-width: 360px;
-    width: 90%;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-  }
+  .modal { background: var(--card); border-radius: var(--radius); padding: 1.75rem; max-width: 360px; width: 90%; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
   .modal h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
   .modal p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.25rem; }
   .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
-  .modal-btns button {
-    padding: 0.55rem 1.1rem;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    cursor: pointer;
-    background: var(--card);
-    color: var(--text);
-  }
-  .modal-btns .confirm-reset {
-    background: #c0392b; color: white; border-color: #c0392b;
-  }
-
-  /* Allowance section */
-  .allowance-card {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .allowance-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-  }
-  .allowance-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.88rem;
-  }
-  .allowance-row:last-child { border-bottom: none; }
-  .allowance-amt { font-weight: 600; }
-
-  /* Footer note */
-  .footer-note {
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 1rem;
-  }
+  .modal-btns button { padding: 0.55rem 1.1rem; border-radius: 8px; border: 1.5px solid var(--border); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; background: var(--card); color: var(--text); }
+  .modal-btns .confirm-reset { background: #c0392b; color: white; border-color: #c0392b; }
 </style>
 </head>
 <body>
@@ -294,77 +172,59 @@
 </header>
 
 <div class="main">
-
   <div class="tabs">
-    <button class="tab-btn active-l" onclick="switchKid('l')" id="tab-l">
-      <span class="tab-dot dot-l"></span> Lillian
-    </button>
-    <button class="tab-btn" onclick="switchKid('n')" id="tab-n">
-      <span class="tab-dot dot-n"></span> Nolan
-    </button>
+    <button class="tab-btn active-l" onclick="switchKid('l')" id="tab-l"><span class="tab-dot dot-l"></span> Lillian</button>
+    <button class="tab-btn" onclick="switchKid('n')" id="tab-n"><span class="tab-dot dot-n"></span> Nolan</button>
   </div>
 
-  <!-- Summary -->
-  <div class="summary-card" id="summary-card">
+  <div class="summary-card">
     <div class="summary-avatar" id="summary-avatar"></div>
     <div class="summary-info">
       <div class="summary-name" id="summary-name"></div>
       <div class="summary-sub" id="summary-sub"></div>
+      <div id="status-badge-wrap" style="margin-top:5px"></div>
     </div>
     <div class="summary-stats">
-      <div class="stat-block">
-        <div class="stat-val" id="stat-done"></div>
-        <div class="stat-label">Done</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-val" style="color:var(--muted)" id="stat-left"></div>
-        <div class="stat-label">Remaining</div>
-      </div>
-      <div class="stat-block">
-        <div class="stat-val" id="stat-earn"></div>
-        <div class="stat-label">Earned</div>
-      </div>
+      <div class="stat-block"><div class="stat-val" id="stat-done"></div><div class="stat-label">Done</div></div>
+      <div class="stat-block"><div class="stat-val" style="color:var(--muted)" id="stat-left"></div><div class="stat-label">To Go</div></div>
+      <div class="stat-block"><div class="stat-val" id="stat-earn"></div><div class="stat-label">Earned</div></div>
     </div>
   </div>
 
-  <!-- Progress -->
-  <div class="progress-wrap">
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-    </div>
-    <div class="progress-label">
-      <span id="progress-text">0 of 12 chores completed</span>
-      <span id="progress-status"></span>
-    </div>
-  </div>
-
-  <!-- Chore list -->
+  <!-- Single unified chore list -->
   <div class="chore-list" id="chore-list"></div>
 
   <!-- Allowance breakdown -->
   <div class="allowance-card">
     <div class="allowance-title">Allowance breakdown</div>
-    <div class="allowance-row"><span>Base (9 chores, no complaints)</span><span class="allowance-amt">$5.00</span></div>
-    <div class="allowance-row"><span>Bonus (each extra chore beyond 9)</span><span class="allowance-amt">+$0.67 each</span></div>
-    <div class="allowance-row"><span>Max (all 12 chores)</span><span class="allowance-amt">$7.00</span></div>
-    <div class="allowance-row" style="font-weight:600"><span>This week</span><span id="allowance-this-week" class="allowance-amt">—</span></div>
+    <div class="allowance-row"><span>Base — complete 10 chores, no complaints</span><span class="allowance-amt">$5.00</span></div>
+    <div class="allowance-row"><span>Bonus — each extra chore beyond 10</span><span class="allowance-amt amt-bonus">+$0.67 each</span></div>
+    <div class="allowance-row"><span>Max — all 13 chores</span><span class="allowance-amt">$7.00</span></div>
+    <div class="allowance-row"><span>This week</span><span class="allowance-amt" id="allowance-this-week">—</span></div>
   </div>
 
-  <!-- Controls -->
   <div class="controls">
     <button class="ctrl-btn" onclick="checkAll()">Check all</button>
     <button class="ctrl-btn" onclick="uncheckAll()">Uncheck all</button>
     <button class="ctrl-btn danger" onclick="openResetModal()">↺ Reset week</button>
   </div>
 
-  <div class="footer-note">Chores auto-reset every Sunday. Data saved in browser.</div>
+  <div class="bar-spacer"></div>
 </div>
 
-<!-- Reset modal -->
+<!-- Full-width counter bar pinned to bottom -->
+<div class="counter-bar-wrap">
+  <div class="counter-bar-labels">
+    <span class="cbl-req" id="cbl-req">Required — 0 of 10</span>
+    <span class="cbl-bonus" id="cbl-bonus"></span>
+  </div>
+  <div class="counter-circles" id="counter-circles"></div>
+</div>
+
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h3>Reset the week?</h3>
-    <p>This will clear all chore completions for both kids and start a fresh week. This can't be undone.</p>
+    <p>This will clear all chore completions for both kids and start a fresh week. This cannot be undone.</p>
     <div class="modal-btns">
       <button onclick="closeResetModal()">Cancel</button>
       <button class="confirm-reset" onclick="confirmReset()">Yes, reset</button>
@@ -373,137 +233,105 @@
 </div>
 
 <script>
+const REQUIRED = 10;
 const CHORES = [
-  { id: "laundry",   title: "Washing Clothes",           desc: "Put dirty clothes in the washer, add soap, and start it. Move to dryer when done." },
-  { id: "dishes",    title: "Cleaning Dishes",            desc: "Rinse dishes and load the dishwasher, or hand-wash if needed. Wipe the sink after." },
-  { id: "clothes",   title: "Put Clothes Away",           desc: "Take clean clothes from the basket and fold them into the right drawers or closet." },
-  { id: "breakfast", title: "Make Own Breakfast",         desc: "Choose something simple, make it yourself, and clean up everything you used." },
-  { id: "lunchbox",  title: "Unpack Lunch Box",           desc: "Empty your lunch box after school, throw away trash, and put containers in the sink." },
-  { id: "trash",     title: "Bring Trash Out and In",     desc: "Roll the trash can to the curb on pickup day and bring it back in once emptied." },
-  { id: "recycle",   title: "Recycling Out and In",       desc: "Roll the recycling bin out on pickup day and bring it back in after pickup." },
-  { id: "mirrors",   title: "Clean Mirrors",              desc: "Spray bathroom and other mirrors with cleaner and wipe until streak-free." },
-  { id: "plants",    title: "Plant Watering",             desc: "Water all indoor plants until the soil is damp — don't overwater." },
-  { id: "tables",    title: "Wipe Down Tables",           desc: "Use a damp cloth to wipe the kitchen table and any outdoor tables clean." },
-  { id: "tidy",      title: "Straighten Up",              desc: "Tidy the common areas — pick up anything out of place and put it where it belongs." },
-  { id: "sheets",    title: "Sheet Laundry Help",         desc: "Help strip the sheets off the bed, put them in the washer, and help remake the bed." },
+  { id:"laundry",   title:"Washing Clothes",        desc:"Put dirty clothes in the washer, add soap, and start it. Move to dryer when done." },
+  { id:"dishes",    title:"Cleaning Dishes",         desc:"Rinse dishes and load the dishwasher, or hand-wash if needed. Wipe the sink after." },
+  { id:"clothes",   title:"Put Clothes Away",        desc:"Take clean clothes from the basket and fold them into the right drawers or closet." },
+  { id:"breakfast", title:"Make Own Breakfast",      desc:"Choose something simple, make it yourself, and clean up everything you used." },
+  { id:"lunchbox",  title:"Unpack Lunch Box",        desc:"Empty your lunch box after school, throw away trash, and put containers in the sink." },
+  { id:"trash",     title:"Bring Trash Out & In",    desc:"Roll the trash can to the curb on pickup day and bring it back in once emptied." },
+  { id:"recycle",   title:"Recycling Out & In",      desc:"Roll the recycling bin out on pickup day and bring it back in after pickup." },
+  { id:"mirrors",   title:"Clean Mirrors",           desc:"Spray bathroom and other mirrors with cleaner and wipe until streak-free." },
+  { id:"plants",    title:"Plant Watering",          desc:"Water all indoor plants until the soil is damp — don't overwater." },
+  { id:"tables",    title:"Wipe Down Tables",        desc:"Use a damp cloth to wipe the kitchen table and any outdoor tables clean." },
+  { id:"tidy",      title:"Straighten Up",           desc:"Tidy the common areas — pick up anything out of place and put it where it belongs." },
+  { id:"sheets",    title:"Sheet Laundry Help",      desc:"Help strip the sheets off the bed, put them in the washer, and help remake the bed." },
+  { id:"yard",      title:"Clean Up the Yard",       desc:"Pick up toys, ride-ons, and anything left outside and put them back where they belong." },
 ];
+const TOTAL = CHORES.length;
+const BONUS_PER = (7 - 5) / (TOTAL - REQUIRED);
 
 const KIDS = {
-  l: { name: "Lillian", initial: "L", accentClass: "done-l", fillClass: "fill-l", avatarClass: "avatar-l", statClass: "stat-val-l" },
-  n: { name: "Nolan",   initial: "N", accentClass: "done-n", fillClass: "fill-n", avatarClass: "avatar-n", statClass: "stat-val-n" },
+  l: { name:"Lillian", initial:"L", avatarClass:"avatar-l", statClass:"stat-val-l", doneClass:"done-l", fillReqClass:"filled-req-l", badgeClass:"badge-l" },
+  n: { name:"Nolan",   initial:"N", avatarClass:"avatar-n", statClass:"stat-val-n", doneClass:"done-n", fillReqClass:"filled-req-n", badgeClass:"badge-n" },
 };
 
-const BASE = 5.00;
-const MAX  = 7.00;
-const BONUS_PER = (MAX - BASE) / 3; // $0.667 each for chores 10, 11, 12
-
-let state = { l: {}, n: {} };
+let state = { l:{}, n:{} };
 let currentKid = 'l';
 
 function getWeekKey() {
-  const now = new Date();
-  const day = now.getDay();
-  const sunday = new Date(now);
-  sunday.setDate(now.getDate() - day);
-  return sunday.toISOString().slice(0, 10);
+  const now = new Date(), day = now.getDay();
+  const sun = new Date(now); sun.setDate(now.getDate() - day);
+  return sun.toISOString().slice(0,10);
 }
-
-function load() {
-  const saved = localStorage.getItem('spengeman_chores_v2');
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    if (parsed.weekKey === getWeekKey()) {
-      state = parsed.state;
-      return;
-    }
-  }
-  state = { l: {}, n: {} };
-  save();
-}
-
-function save() {
-  localStorage.setItem('spengeman_chores_v2', JSON.stringify({ weekKey: getWeekKey(), state }));
-}
-
-function countDone(kid) {
-  return CHORES.filter(c => state[kid][c.id]).length;
-}
-
-function calcEarned(done) {
-  if (done < 9) return 0;
-  const bonus = done - 9;
-  return +(BASE + bonus * BONUS_PER).toFixed(2);
-}
+function save() { localStorage.setItem('spengeman_chores_v4', JSON.stringify({ weekKey: getWeekKey(), state })); }
+function countDone(kid) { return CHORES.filter(c => state[kid][c.id]).length; }
+function calcEarned(done) { if (done < REQUIRED) return 0; return +(5 + Math.max(0, done - REQUIRED) * BONUS_PER).toFixed(2); }
 
 function renderWeekLabel() {
-  const key = getWeekKey();
-  const d = new Date(key + 'T00:00:00');
-  const opts = { month: 'short', day: 'numeric' };
-  const end = new Date(d); end.setDate(d.getDate() + 6);
-  document.getElementById('week-label').textContent =
-    'Week of ' + d.toLocaleDateString('en-US', opts) + ' – ' + end.toLocaleDateString('en-US', opts);
+  const d = new Date(getWeekKey() + 'T00:00:00'), end = new Date(d); end.setDate(d.getDate()+6);
+  const o = {month:'short',day:'numeric'};
+  document.getElementById('week-label').textContent = 'Week of ' + d.toLocaleDateString('en-US',o) + ' – ' + end.toLocaleDateString('en-US',o);
 }
 
 function renderTab() {
-  const kid = currentKid;
-  const k = KIDS[kid];
-  const done = countDone(kid);
-  const earned = calcEarned(done);
-  const left = Math.max(0, 9 - done);
+  const kid = currentKid, k = KIDS[kid];
+  const done = countDone(kid), earned = calcEarned(done);
+  const toGo = Math.max(0, REQUIRED - done);
+  const bonusDone = Math.max(0, done - REQUIRED);
 
   // Avatar
   const av = document.getElementById('summary-avatar');
   av.className = 'summary-avatar ' + k.avatarClass;
   av.textContent = k.initial;
-
   document.getElementById('summary-name').textContent = k.name;
-  document.getElementById('summary-sub').textContent = done >= 9
-    ? (done === 12 ? 'All chores done — full allowance!' : `${done} chores done — allowance earned!`)
-    : `${left} more chore${left !== 1 ? 's' : ''} needed for allowance`;
+  document.getElementById('summary-sub').textContent = done >= REQUIRED
+    ? (done === TOTAL ? 'All 13 chores done — maximum allowance!' : `${done} chores done — allowance earned!`)
+    : `${toGo} more chore${toGo!==1?'s':''} needed to earn allowance`;
 
   // Stats
   const sv = document.getElementById('stat-done');
-  sv.className = 'stat-val ' + k.statClass;
-  sv.textContent = done;
-
-  document.getElementById('stat-left').textContent = 12 - done;
-
+  sv.className = 'stat-val ' + k.statClass; sv.textContent = done;
+  document.getElementById('stat-left').textContent = TOTAL - done;
   const se = document.getElementById('stat-earn');
   se.className = 'stat-val ' + k.statClass;
-  se.textContent = done >= 9 ? '$' + earned.toFixed(2) : '$0';
+  se.textContent = done >= REQUIRED ? '$' + earned.toFixed(2) : '$0';
 
-  // Progress bar
-  const pct = Math.round((done / 12) * 100);
-  const pf = document.getElementById('progress-fill');
-  pf.style.width = pct + '%';
-  pf.className = 'progress-fill ' + k.fillClass;
-  document.getElementById('progress-text').textContent = `${done} of 12 chores completed`;
-
-  const ps = document.getElementById('progress-status');
-  if (done >= 9) {
-    const cls = kid === 'l' ? 'badge-l' : 'badge-n';
-    ps.innerHTML = `<span class="earned-badge ${cls}">Allowance earned ✓</span>`;
+  // Status badge
+  const bw = document.getElementById('status-badge-wrap');
+  if (done >= REQUIRED && bonusDone > 0) {
+    bw.innerHTML = `<span class="status-badge badge-bonus">Allowance earned + ${bonusDone} bonus chore${bonusDone!==1?'s':''} ✓</span>`;
+  } else if (done >= REQUIRED) {
+    bw.innerHTML = `<span class="status-badge ${k.badgeClass}">Allowance earned ✓</span>`;
   } else {
-    ps.innerHTML = `<span class="earned-badge badge-no">${9 - done} to go</span>`;
+    bw.innerHTML = `<span class="status-badge badge-no">${toGo} to go for allowance</span>`;
   }
 
   // Allowance
   document.getElementById('allowance-this-week').textContent =
-    done >= 9 ? '$' + earned.toFixed(2) : 'Not yet earned';
+    done >= REQUIRED ? '$' + earned.toFixed(2) : 'Not yet earned';
 
-  // Chore list
+  // Chore list — one unified list, bonus coloring kicks in after 10 checked
+  // Figure out which checked items are "bonus" (the ones beyond 10)
+  // We color bonus based on order checked — last ones beyond threshold get amber
+  const checkedIds = CHORES.filter(c => state[kid][c.id]).map(c => c.id);
+  const bonusIds = new Set(checkedIds.slice(REQUIRED)); // anything beyond first 10 checked
+
   const list = document.getElementById('chore-list');
   list.innerHTML = '';
   CHORES.forEach(c => {
     const checked = !!state[kid][c.id];
+    const isBonus = checked && bonusIds.has(c.id);
     const item = document.createElement('div');
-    item.className = 'chore-item' + (checked ? ' ' + k.accentClass : '');
-    item.setAttribute('role', 'checkbox');
-    item.setAttribute('aria-checked', checked);
+    let cls = 'chore-item';
+    if (checked) cls += isBonus ? ' done-bonus' : ' ' + k.doneClass;
+    item.className = cls;
+    item.setAttribute('role','checkbox'); item.setAttribute('aria-checked', checked);
     item.onclick = () => toggleChore(c.id);
     item.innerHTML = `
       <div class="chore-check">
-        <svg class="checkmark" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="checkmark" viewBox="0 0 12 12" fill="none">
           <path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
@@ -511,62 +339,55 @@ function renderTab() {
         <div class="chore-title">${c.title}</div>
         <div class="chore-desc">${c.desc}</div>
       </div>
+      ${isBonus ? '<span class="bonus-pill">+BONUS</span>' : ''}
     `;
     list.appendChild(item);
   });
 
-  // Tab buttons
-  document.getElementById('tab-l').className = 'tab-btn' + (kid === 'l' ? ' active-l' : '');
-  document.getElementById('tab-n').className = 'tab-btn' + (kid === 'n' ? ' active-n' : '');
+  // Counter bar
+  const circles = document.getElementById('counter-circles');
+  circles.innerHTML = '';
+  for (let i = 0; i < TOTAL; i++) {
+    const div = document.createElement('div');
+    const num = i + 1;
+    const isThreshold = i === REQUIRED - 1; // circle 10
+    let cls = 'c-circle';
+    if (i < done) {
+      if (i < REQUIRED) cls += ' ' + k.fillReqClass;
+      else cls += ' filled-bonus';
+    } else if (isThreshold) {
+      cls += ' threshold';
+    }
+    div.className = cls;
+    div.textContent = num;
+    circles.appendChild(div);
+  }
+
+  // Counter bar labels
+  document.getElementById('cbl-req').textContent =
+    done < REQUIRED ? `Required — ${done} of ${REQUIRED}` : `Required — ${REQUIRED} of ${REQUIRED} ✓`;
+  document.getElementById('cbl-bonus').textContent =
+    bonusDone > 0 ? `+${bonusDone} bonus chore${bonusDone!==1?'s':''}` : `Bonus after ${REQUIRED}`;
+
+  // Tabs
+  document.getElementById('tab-l').className = 'tab-btn' + (kid==='l'?' active-l':'');
+  document.getElementById('tab-n').className = 'tab-btn' + (kid==='n'?' active-n':'');
 }
 
-function toggleChore(id) {
-  state[currentKid][id] = !state[currentKid][id];
-  save();
-  renderTab();
-}
-
-function switchKid(kid) {
-  currentKid = kid;
-  renderTab();
-}
-
-function checkAll() {
-  CHORES.forEach(c => { state[currentKid][c.id] = true; });
-  save(); renderTab();
-}
-
-function uncheckAll() {
-  CHORES.forEach(c => { state[currentKid][c.id] = false; });
-  save(); renderTab();
-}
-
+function toggleChore(id) { state[currentKid][id] = !state[currentKid][id]; save(); renderTab(); }
+function switchKid(kid) { currentKid = kid; renderTab(); }
+function checkAll() { CHORES.forEach(c => { state[currentKid][c.id] = true; }); save(); renderTab(); }
+function uncheckAll() { CHORES.forEach(c => { state[currentKid][c.id] = false; }); save(); renderTab(); }
 function openResetModal() { document.getElementById('modal').classList.add('open'); }
 function closeResetModal() { document.getElementById('modal').classList.remove('open'); }
-function confirmReset() {
-  state = { l: {}, n: {} };
-  localStorage.removeItem('spengeman_chores_v2');
-  closeResetModal();
-  renderTab();
-}
+function confirmReset() { state={l:{},n:{}}; localStorage.removeItem('spengeman_chores_v4'); closeResetModal(); renderTab(); }
 
-// Auto-reset check on load
 function checkAutoReset() {
-  const saved = localStorage.getItem('spengeman_chores_v2');
-  if (saved) {
-    const parsed = JSON.parse(saved);
-    if (parsed.weekKey !== getWeekKey()) {
-      state = { l: {}, n: {} };
-      save();
-    } else {
-      state = parsed.state;
-    }
-  }
+  const saved = localStorage.getItem('spengeman_chores_v4');
+  if (saved) { const p = JSON.parse(saved); if (p.weekKey !== getWeekKey()) { state={l:{},n:{}}; save(); } else { state=p.state; } }
 }
 
-checkAutoReset();
-renderWeekLabel();
-renderTab();
+checkAutoReset(); renderWeekLabel(); renderTab();
 </script>
 </body>
 </html>
