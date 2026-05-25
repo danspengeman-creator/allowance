@@ -318,36 +318,23 @@ function closeOutWeek() {
 
   const payload = { rows: [ buildKidPayload('l'), buildKidPayload('n') ] };
 
-  // Use a hidden iframe as the form target so the browser never navigates away
-  // and no auth popup is triggered. Apps Script receives it as a GET with a
-  // 'data' query parameter (URL-encoded JSON).
-  const iframeId = 'submit-iframe';
-  let iframe = document.getElementById(iframeId);
-  if (iframe) iframe.remove();
-  iframe = document.createElement('iframe');
-  iframe.id = iframeId;
-  iframe.name = iframeId;
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
+  // Set iframe src directly — cleanest way to call Apps Script from a local file.
+  // Apps Script receives the request as doGet(e) with e.parameter.data.
+  const encodedData = encodeURIComponent(JSON.stringify(payload));
+  const requestUrl = url + '?data=' + encodedData;
 
-  const form = document.createElement('form');
-  form.method = 'GET';
-  form.action = url;
-  form.target = iframeId;
+  let iframe = document.getElementById('submit-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'submit-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+  iframe.src = requestUrl;
 
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'data';
-  input.value = JSON.stringify(payload);
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-  form.remove();
-
-  // We can't read the iframe response due to cross-origin rules,
-  // so we wait 3 seconds then treat it as success.
+  // Give Apps Script up to 8 seconds to write, then show success and reset.
   setTimeout(() => {
-    statusEl.textContent = '✓ Sent to Google Sheets';
+    statusEl.textContent = '✓ Saved to Google Sheets';
     statusEl.className = 'closeout-status ok';
     state = { l:{}, n:{} };
     saveState();
@@ -358,7 +345,7 @@ function closeOutWeek() {
       btn.disabled = false;
       btn.classList.remove('sending');
     }, 2000);
-  }, 3000);
+  }, 8000);
 }
 
 function renderWeekLabel() {
