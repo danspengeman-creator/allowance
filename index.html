@@ -7,21 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
   :root {
-    --purple: #534AB7;
-    --purple-light: #EEEDFE;
-    --purple-mid: #7F77DD;
-    --teal: #0F6E56;
-    --teal-light: #E1F5EE;
-    --teal-mid: #1D9E75;
-    --amber: #9A5000;
-    --amber-mid: #D4700A;
-    --amber-light: #FAEEDA;
-    --bg: #F7F6F2;
-    --card: #FFFFFF;
-    --text: #1a1a1a;
-    --muted: #6b6b6b;
-    --border: rgba(0,0,0,0.08);
-    --radius: 14px;
+    --purple: #534AB7; --purple-light: #EEEDFE; --purple-mid: #7F77DD;
+    --teal: #0F6E56; --teal-light: #E1F5EE; --teal-mid: #1D9E75;
+    --amber: #9A5000; --amber-mid: #D4700A; --amber-light: #FAEEDA;
+    --green: #1a7a3a; --green-light: #E6F7ED;
+    --bg: #F7F6F2; --card: #FFFFFF; --text: #1a1a1a; --muted: #6b6b6b;
+    --border: rgba(0,0,0,0.08); --radius: 14px;
     --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,15 +25,25 @@
 
   .main { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 0; }
 
+  /* Setup banner */
+  .setup-banner { background: #FFF8F0; border: 1.5px solid #F0C88A; border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+  .setup-banner h4 { font-size: 0.88rem; font-weight: 600; color: var(--amber); margin-bottom: 4px; }
+  .setup-banner p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .setup-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .setup-input { flex: 1; min-width: 200px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 6px 10px; border: 1.5px solid #ddd; border-radius: 8px; outline: none; }
+  .setup-input:focus { border-color: var(--amber-mid); }
+  .setup-save-btn { padding: 6px 14px; background: var(--amber-mid); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .setup-connected { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+  .connected-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .setup-change { font-size: 0.75rem; color: var(--muted); text-decoration: underline; cursor: pointer; margin-left: 4px; }
+
   .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; background: var(--card); border-radius: var(--radius); padding: 5px; box-shadow: var(--shadow); }
   .tab-btn { flex: 1; padding: 0.6rem 1rem; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--muted); border-radius: 10px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .tab-btn.active-l { background: var(--purple-light); color: var(--purple); }
   .tab-btn.active-n { background: var(--teal-light); color: var(--teal); }
   .tab-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-l { background: var(--purple); }
-  .dot-n { background: var(--teal); }
+  .dot-l { background: var(--purple); } .dot-n { background: var(--teal); }
 
-  /* Summary card */
   .summary-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
   .summary-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.4rem; flex-shrink: 0; }
   .avatar-l { background: var(--purple-light); color: var(--purple); }
@@ -53,34 +54,27 @@
   .summary-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
   .stat-block { text-align: center; }
   .stat-val { font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1; margin-bottom: 2px; }
-  .stat-val-l { color: var(--purple); }
-  .stat-val-n { color: var(--teal); }
+  .stat-val-l { color: var(--purple); } .stat-val-n { color: var(--teal); }
   .stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  /* Chore list */
   .chore-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.25rem; }
   .chore-item { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem; cursor: pointer; transition: background 0.15s, border-color 0.15s, transform 0.1s; border: 1.5px solid transparent; user-select: none; }
   .chore-item:active { transform: scale(0.985); }
   .chore-item.done-l { border-color: var(--purple-mid); background: var(--purple-light); }
   .chore-item.done-n { border-color: var(--teal-mid); background: var(--teal-light); }
   .chore-item.done-bonus { border-color: var(--amber-mid); background: var(--amber-light); }
-
   .chore-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #ccc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: white; }
   .chore-item.done-l .chore-check { background: var(--purple); border-color: var(--purple); }
   .chore-item.done-n .chore-check { background: var(--teal-mid); border-color: var(--teal-mid); }
   .chore-item.done-bonus .chore-check { background: var(--amber-mid); border-color: var(--amber-mid); }
   .checkmark { display: none; width: 12px; height: 12px; }
-  .chore-item.done-l .checkmark,
-  .chore-item.done-n .checkmark,
-  .chore-item.done-bonus .checkmark { display: block; }
-
+  .chore-item.done-l .checkmark, .chore-item.done-n .checkmark, .chore-item.done-bonus .checkmark { display: block; }
   .chore-text { flex: 1; }
   .chore-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
   .chore-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
   .chore-item.done-l .chore-title { color: var(--purple); }
   .chore-item.done-n .chore-title { color: var(--teal); }
   .chore-item.done-bonus .chore-title { color: var(--amber-mid); }
-
   .bonus-pill { font-size: 0.68rem; font-weight: 700; background: var(--amber-light); color: var(--amber-mid); border: 1px solid #F0C88A; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; white-space: nowrap; }
 
   .status-badge { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; margin-top: 5px; }
@@ -89,55 +83,6 @@
   .badge-no { background: #F0F0F0; color: var(--muted); }
   .badge-bonus { background: var(--amber-light); color: var(--amber-mid); }
 
-  /* ── Full-width counter bar ─────────────────────────────── */
-  .counter-bar-wrap {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
-    padding: 0.6rem 1rem 0.75rem;
-    z-index: 50;
-  }
-  .counter-bar-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.7rem;
-    font-weight: 600;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-  .cbl-req { color: var(--muted); }
-  .cbl-bonus { color: var(--amber-mid); }
-  .counter-circles {
-    display: flex;
-    gap: 0;
-    align-items: center;
-    width: 100%;
-  }
-  .c-circle {
-    flex: 1;
-    aspect-ratio: 1;
-    max-width: 42px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    border: 2px solid #E0E0E0;
-    background: #F5F5F5;
-    color: #bbb;
-    margin: 0 2px;
-    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
-  }
-  .c-circle.filled-req-l { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple); }
-  .c-circle.filled-req-n { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
-  .c-circle.filled-bonus { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber-mid); transform: scale(1.08); }
-  .c-circle.threshold { border-style: dashed; border-color: #bbb; }
-
-  /* Allowance card */
   .allowance-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
   .allowance-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
   .allowance-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
@@ -145,13 +90,34 @@
   .allowance-amt { font-weight: 600; }
   .amt-bonus { color: var(--amber-mid); }
 
+  /* Close out week card */
+  .closeout-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .closeout-info { flex: 1; }
+  .closeout-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; }
+  .closeout-sub { font-size: 0.78rem; color: var(--muted); }
+  .closeout-btn { padding: 0.6rem 1.1rem; background: var(--green); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
+  .closeout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .closeout-btn.sending { opacity: 0.7; }
+  .closeout-status { font-size: 0.78rem; margin-top: 4px; }
+  .closeout-status.ok { color: var(--green); }
+  .closeout-status.err { color: #c0392b; }
+
   .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.5rem; }
   .ctrl-btn { padding: 0.55rem 1rem; border-radius: 8px; border: 1.5px solid var(--border); background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .ctrl-btn:hover { border-color: #aaa; color: var(--text); }
   .ctrl-btn.danger { color: #c0392b; border-color: #f5c6c6; }
   .ctrl-btn.danger:hover { background: #fff5f5; }
 
-  /* Spacer so content doesn't hide behind fixed bar */
+  /* Counter bar */
+  .counter-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); box-shadow: 0 -2px 12px rgba(0,0,0,0.07); padding: 0.6rem 1rem 0.75rem; z-index: 50; }
+  .counter-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .cbl-req { color: var(--muted); } .cbl-bonus { color: var(--amber-mid); }
+  .counter-circles { display: flex; gap: 0; align-items: center; width: 100%; }
+  .c-circle { flex: 1; aspect-ratio: 1; max-width: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; border: 2px solid #E0E0E0; background: #F5F5F5; color: #bbb; margin: 0 2px; transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s; }
+  .c-circle.filled-req-l { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple); }
+  .c-circle.filled-req-n { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
+  .c-circle.filled-bonus { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber-mid); transform: scale(1.08); }
+  .c-circle.threshold { border-style: dashed; border-color: #bbb; }
   .bar-spacer { height: 90px; }
 
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
@@ -172,6 +138,24 @@
 </header>
 
 <div class="main">
+
+  <!-- Google Sheets setup banner -->
+  <div class="setup-banner" id="setup-banner">
+    <h4>📊 Connect to Google Sheets</h4>
+    <p>Paste your Apps Script Web App URL below to enable automatic weekly history logging.</p>
+    <div class="setup-row">
+      <input class="setup-input" id="script-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec">
+      <button class="setup-save-btn" onclick="saveScriptUrl()">Save</button>
+    </div>
+  </div>
+  <div class="setup-banner" id="connected-banner" style="display:none; background:var(--green-light); border-color:#8BC4A0;">
+    <div class="setup-connected">
+      <div class="connected-dot"></div>
+      <span style="font-size:0.85rem; font-weight:600; color:var(--green);">Google Sheets connected</span>
+      <span class="setup-change" onclick="changeScriptUrl()">change</span>
+    </div>
+  </div>
+
   <div class="tabs">
     <button class="tab-btn active-l" onclick="switchKid('l')" id="tab-l"><span class="tab-dot dot-l"></span> Lillian</button>
     <button class="tab-btn" onclick="switchKid('n')" id="tab-n"><span class="tab-dot dot-n"></span> Nolan</button>
@@ -191,10 +175,8 @@
     </div>
   </div>
 
-  <!-- Single unified chore list -->
   <div class="chore-list" id="chore-list"></div>
 
-  <!-- Allowance breakdown -->
   <div class="allowance-card">
     <div class="allowance-title">Allowance breakdown</div>
     <div class="allowance-row"><span>Base — complete 10 chores, no complaints</span><span class="allowance-amt">$5.00</span></div>
@@ -203,31 +185,42 @@
     <div class="allowance-row"><span>This week</span><span class="allowance-amt" id="allowance-this-week">—</span></div>
   </div>
 
+  <!-- Close out week -->
+  <div class="closeout-card">
+    <div class="closeout-info">
+      <div class="closeout-title">Close out this week</div>
+      <div class="closeout-sub" id="closeout-sub">Logs both kids' results to Google Sheets and resets the tracker.</div>
+      <div class="closeout-status" id="closeout-status"></div>
+    </div>
+    <button class="closeout-btn" id="closeout-btn" onclick="closeOutWeek()">Save & Reset Week</button>
+  </div>
+
   <div class="controls">
     <button class="ctrl-btn" onclick="checkAll()">Check all</button>
     <button class="ctrl-btn" onclick="uncheckAll()">Uncheck all</button>
-    <button class="ctrl-btn danger" onclick="openResetModal()">↺ Reset week</button>
+    <button class="ctrl-btn danger" onclick="openResetModal()">↺ Reset without saving</button>
   </div>
 
   <div class="bar-spacer"></div>
 </div>
 
-<!-- Full-width counter bar pinned to bottom -->
+<!-- Counter bar -->
 <div class="counter-bar-wrap">
   <div class="counter-bar-labels">
     <span class="cbl-req" id="cbl-req">Required — 0 of 10</span>
-    <span class="cbl-bonus" id="cbl-bonus"></span>
+    <span class="cbl-bonus" id="cbl-bonus">Bonus after 10</span>
   </div>
   <div class="counter-circles" id="counter-circles"></div>
 </div>
 
+<!-- Reset modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h3>Reset the week?</h3>
-    <p>This will clear all chore completions for both kids and start a fresh week. This cannot be undone.</p>
+    <h3>Reset without saving?</h3>
+    <p>This clears all chore completions for both kids without logging to Google Sheets. Use "Save & Reset Week" instead if you want to keep a record.</p>
     <div class="modal-btns">
       <button onclick="closeResetModal()">Cancel</button>
-      <button class="confirm-reset" onclick="confirmReset()">Yes, reset</button>
+      <button class="confirm-reset" onclick="confirmReset()">Reset anyway</button>
     </div>
   </div>
 </div>
@@ -257,6 +250,9 @@ const KIDS = {
   n: { name:"Nolan",   initial:"N", avatarClass:"avatar-n", statClass:"stat-val-n", doneClass:"done-n", fillReqClass:"filled-req-n", badgeClass:"badge-n" },
 };
 
+// State lives only in memory — loaded from sessionStorage so same-tab refreshes survive,
+// but each new session starts fresh (forcing a reload from Sheets isn't needed for a tracker).
+// We use sessionStorage for current week state and localStorage only for the script URL.
 let state = { l:{}, n:{} };
 let currentKid = 'l';
 
@@ -265,14 +261,108 @@ function getWeekKey() {
   const sun = new Date(now); sun.setDate(now.getDate() - day);
   return sun.toISOString().slice(0,10);
 }
-function save() { localStorage.setItem('spengeman_chores_v4', JSON.stringify({ weekKey: getWeekKey(), state })); }
+function getWeekLabel() {
+  const d = new Date(getWeekKey() + 'T00:00:00'), end = new Date(d); end.setDate(d.getDate()+6);
+  const o = {month:'short',day:'numeric'};
+  return d.toLocaleDateString('en-US',o) + ' – ' + end.toLocaleDateString('en-US',o);
+}
+
+// Persist current-week state in sessionStorage (so same browser keeps state mid-week)
+function saveState() {
+  sessionStorage.setItem('spengeman_state_v1', JSON.stringify({ weekKey: getWeekKey(), state }));
+}
+function loadState() {
+  const s = sessionStorage.getItem('spengeman_state_v1');
+  if (s) { const p = JSON.parse(s); if (p.weekKey === getWeekKey()) { state = p.state; return; } }
+  state = { l:{}, n:{} };
+}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5NlyuDmDYadV32lafjwBWBaUb__Wy1-gZHimN9agQYd_22qTG5H6hFQ60njA_e7nL/exec';
+function getScriptUrl() { return SCRIPT_URL; }
+function renderSetupBanner() {
+  document.getElementById('setup-banner').style.display = 'none';
+  document.getElementById('connected-banner').style.display = 'block';
+  document.getElementById('closeout-btn').disabled = false;
+}
+
 function countDone(kid) { return CHORES.filter(c => state[kid][c.id]).length; }
 function calcEarned(done) { if (done < REQUIRED) return 0; return +(5 + Math.max(0, done - REQUIRED) * BONUS_PER).toFixed(2); }
 
+// Build the payload for one kid
+function buildKidPayload(kid) {
+  const done = countDone(kid);
+  const earned = calcEarned(done);
+  const choreCols = {};
+  CHORES.forEach(c => { choreCols[c.title] = state[kid][c.id] ? 'Yes' : 'No'; });
+  return {
+    kid: KIDS[kid].name,
+    weekOf: getWeekKey(),
+    weekLabel: getWeekLabel(),
+    choresDone: done,
+    passed: done >= REQUIRED ? 'Yes' : 'No',
+    allowanceEarned: done >= REQUIRED ? '$' + earned.toFixed(2) : '$0.00',
+    chores: choreCols,
+  };
+}
+
+function closeOutWeek() {
+  const url = getScriptUrl();
+  if (!url) return;
+  const btn = document.getElementById('closeout-btn');
+  const statusEl = document.getElementById('closeout-status');
+  btn.disabled = true;
+  btn.classList.add('sending');
+  btn.textContent = 'Saving…';
+  statusEl.textContent = '';
+  statusEl.className = 'closeout-status';
+
+  const payload = { rows: [ buildKidPayload('l'), buildKidPayload('n') ] };
+
+  // Use a hidden iframe as the form target so the browser never navigates away
+  // and no auth popup is triggered. Apps Script receives it as a GET with a
+  // 'data' query parameter (URL-encoded JSON).
+  const iframeId = 'submit-iframe';
+  let iframe = document.getElementById(iframeId);
+  if (iframe) iframe.remove();
+  iframe = document.createElement('iframe');
+  iframe.id = iframeId;
+  iframe.name = iframeId;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'GET';
+  form.action = url;
+  form.target = iframeId;
+
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(payload);
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
+  form.remove();
+
+  // We can't read the iframe response due to cross-origin rules,
+  // so we wait 3 seconds then treat it as success.
+  setTimeout(() => {
+    statusEl.textContent = '✓ Sent to Google Sheets';
+    statusEl.className = 'closeout-status ok';
+    state = { l:{}, n:{} };
+    saveState();
+    renderTab();
+    setTimeout(() => {
+      statusEl.textContent = '';
+      btn.textContent = 'Save & Reset Week';
+      btn.disabled = false;
+      btn.classList.remove('sending');
+    }, 2000);
+  }, 3000);
+}
+
 function renderWeekLabel() {
-  const d = new Date(getWeekKey() + 'T00:00:00'), end = new Date(d); end.setDate(d.getDate()+6);
-  const o = {month:'short',day:'numeric'};
-  document.getElementById('week-label').textContent = 'Week of ' + d.toLocaleDateString('en-US',o) + ' – ' + end.toLocaleDateString('en-US',o);
+  document.getElementById('week-label').textContent = 'Week of ' + getWeekLabel();
 }
 
 function renderTab() {
@@ -281,16 +371,13 @@ function renderTab() {
   const toGo = Math.max(0, REQUIRED - done);
   const bonusDone = Math.max(0, done - REQUIRED);
 
-  // Avatar
   const av = document.getElementById('summary-avatar');
-  av.className = 'summary-avatar ' + k.avatarClass;
-  av.textContent = k.initial;
+  av.className = 'summary-avatar ' + k.avatarClass; av.textContent = k.initial;
   document.getElementById('summary-name').textContent = k.name;
   document.getElementById('summary-sub').textContent = done >= REQUIRED
     ? (done === TOTAL ? 'All 13 chores done — maximum allowance!' : `${done} chores done — allowance earned!`)
     : `${toGo} more chore${toGo!==1?'s':''} needed to earn allowance`;
 
-  // Stats
   const sv = document.getElementById('stat-done');
   sv.className = 'stat-val ' + k.statClass; sv.textContent = done;
   document.getElementById('stat-left').textContent = TOTAL - done;
@@ -298,7 +385,6 @@ function renderTab() {
   se.className = 'stat-val ' + k.statClass;
   se.textContent = done >= REQUIRED ? '$' + earned.toFixed(2) : '$0';
 
-  // Status badge
   const bw = document.getElementById('status-badge-wrap');
   if (done >= REQUIRED && bonusDone > 0) {
     bw.innerHTML = `<span class="status-badge badge-bonus">Allowance earned + ${bonusDone} bonus chore${bonusDone!==1?'s':''} ✓</span>`;
@@ -308,16 +394,11 @@ function renderTab() {
     bw.innerHTML = `<span class="status-badge badge-no">${toGo} to go for allowance</span>`;
   }
 
-  // Allowance
   document.getElementById('allowance-this-week').textContent =
     done >= REQUIRED ? '$' + earned.toFixed(2) : 'Not yet earned';
 
-  // Chore list — one unified list, bonus coloring kicks in after 10 checked
-  // Figure out which checked items are "bonus" (the ones beyond 10)
-  // We color bonus based on order checked — last ones beyond threshold get amber
   const checkedIds = CHORES.filter(c => state[kid][c.id]).map(c => c.id);
-  const bonusIds = new Set(checkedIds.slice(REQUIRED)); // anything beyond first 10 checked
-
+  const bonusIds = new Set(checkedIds.slice(REQUIRED));
   const list = document.getElementById('chore-list');
   list.innerHTML = '';
   CHORES.forEach(c => {
@@ -344,50 +425,35 @@ function renderTab() {
     list.appendChild(item);
   });
 
-  // Counter bar
   const circles = document.getElementById('counter-circles');
   circles.innerHTML = '';
   for (let i = 0; i < TOTAL; i++) {
     const div = document.createElement('div');
-    const num = i + 1;
-    const isThreshold = i === REQUIRED - 1; // circle 10
     let cls = 'c-circle';
-    if (i < done) {
-      if (i < REQUIRED) cls += ' ' + k.fillReqClass;
-      else cls += ' filled-bonus';
-    } else if (isThreshold) {
-      cls += ' threshold';
-    }
-    div.className = cls;
-    div.textContent = num;
+    if (i < done) cls += i < REQUIRED ? ' ' + k.fillReqClass : ' filled-bonus';
+    else if (i === REQUIRED - 1) cls += ' threshold';
+    div.className = cls; div.textContent = i + 1;
     circles.appendChild(div);
   }
 
-  // Counter bar labels
   document.getElementById('cbl-req').textContent =
     done < REQUIRED ? `Required — ${done} of ${REQUIRED}` : `Required — ${REQUIRED} of ${REQUIRED} ✓`;
   document.getElementById('cbl-bonus').textContent =
     bonusDone > 0 ? `+${bonusDone} bonus chore${bonusDone!==1?'s':''}` : `Bonus after ${REQUIRED}`;
 
-  // Tabs
   document.getElementById('tab-l').className = 'tab-btn' + (kid==='l'?' active-l':'');
   document.getElementById('tab-n').className = 'tab-btn' + (kid==='n'?' active-n':'');
 }
 
-function toggleChore(id) { state[currentKid][id] = !state[currentKid][id]; save(); renderTab(); }
+function toggleChore(id) { state[currentKid][id] = !state[currentKid][id]; saveState(); renderTab(); }
 function switchKid(kid) { currentKid = kid; renderTab(); }
-function checkAll() { CHORES.forEach(c => { state[currentKid][c.id] = true; }); save(); renderTab(); }
-function uncheckAll() { CHORES.forEach(c => { state[currentKid][c.id] = false; }); save(); renderTab(); }
+function checkAll() { CHORES.forEach(c => { state[currentKid][c.id] = true; }); saveState(); renderTab(); }
+function uncheckAll() { CHORES.forEach(c => { state[currentKid][c.id] = false; }); saveState(); renderTab(); }
 function openResetModal() { document.getElementById('modal').classList.add('open'); }
 function closeResetModal() { document.getElementById('modal').classList.remove('open'); }
-function confirmReset() { state={l:{},n:{}}; localStorage.removeItem('spengeman_chores_v4'); closeResetModal(); renderTab(); }
+function confirmReset() { state={l:{},n:{}}; saveState(); closeResetModal(); renderTab(); }
 
-function checkAutoReset() {
-  const saved = localStorage.getItem('spengeman_chores_v4');
-  if (saved) { const p = JSON.parse(saved); if (p.weekKey !== getWeekKey()) { state={l:{},n:{}}; save(); } else { state=p.state; } }
-}
-
-checkAutoReset(); renderWeekLabel(); renderTab();
+loadState(); renderWeekLabel(); renderSetupBanner(); renderTab();
 </script>
 </body>
 </html>
