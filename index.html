@@ -277,7 +277,7 @@ function loadState() {
   state = { l:{}, n:{} };
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz8RcwqAb1rJUhWt15aIhDaufxemVOKri6OEWXFS79ukJPLTO1TeybisWsllxrS0ZaT/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6xdDO-vJAG3f3-qCXbBI483X0o8t-6RBMUJsoB_ZLh46APzlXy-avOSlFf_BS/exec';
 function getScriptUrl() { return SCRIPT_URL; }
 function renderSetupBanner() {
   document.getElementById('setup-banner').style.display = 'none';
@@ -288,21 +288,19 @@ function renderSetupBanner() {
 function countDone(kid) { return CHORES.filter(c => state[kid][c.id]).length; }
 function calcEarned(done) { if (done < REQUIRED) return 0; return +(5 + Math.max(0, done - REQUIRED) * BONUS_PER).toFixed(2); }
 
-// Build the payload for one kid
-function buildKidPayload(kid) {
+// Build flat URL params for one kid — more reliable than JSON in query string
+function buildKidParams(kid) {
   const done = countDone(kid);
   const earned = calcEarned(done);
-  const choreCols = {};
-  CHORES.forEach(c => { choreCols[c.title] = state[kid][c.id] ? 'Yes' : 'No'; });
-  return {
-    kid: KIDS[kid].name,
-    weekOf: getWeekKey(),
-    weekLabel: getWeekLabel(),
-    choresDone: done,
-    passed: done >= REQUIRED ? 'Yes' : 'No',
-    allowanceEarned: done >= REQUIRED ? '$' + earned.toFixed(2) : '$0.00',
-    chores: choreCols,
-  };
+  const params = new URLSearchParams();
+  params.set('kid', KIDS[kid].name);
+  params.set('weekOf', getWeekKey());
+  params.set('weekLabel', getWeekLabel());
+  params.set('choresDone', done);
+  params.set('passed', done >= REQUIRED ? 'Yes' : 'No');
+  params.set('allowanceEarned', done >= REQUIRED ? '$' + earned.toFixed(2) : '$0.00');
+  CHORES.forEach(c => { params.set('chore_' + c.id, state[kid][c.id] ? 'Yes' : 'No'); });
+  return params.toString();
 }
 
 function closeOutWeek() {
@@ -316,23 +314,22 @@ function closeOutWeek() {
   statusEl.textContent = '';
   statusEl.className = 'closeout-status';
 
-  const payload = { rows: [ buildKidPayload('l'), buildKidPayload('n') ] };
+  // Send each kid as a separate iframe request with flat URL params
+  ['l', 'n'].forEach((kid, i) => {
+    setTimeout(() => {
+      const iframeId = 'submit-iframe-' + kid;
+      let iframe = document.getElementById(iframeId);
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = iframeId;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+      }
+      iframe.src = url + '?' + buildKidParams(kid);
+    }, i * 500); // stagger by 500ms so they don't collide
+  });
 
-  // Set iframe src directly — cleanest way to call Apps Script from a local file.
-  // Apps Script receives the request as doGet(e) with e.parameter.data.
-  const encodedData = encodeURIComponent(JSON.stringify(payload));
-  const requestUrl = url + '?data=' + encodedData;
-
-  let iframe = document.getElementById('submit-iframe');
-  if (!iframe) {
-    iframe = document.createElement('iframe');
-    iframe.id = 'submit-iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-  }
-  iframe.src = requestUrl;
-
-  // Give Apps Script up to 8 seconds to write, then show success and reset.
+  // Give Apps Script up to 10 seconds to write both rows
   setTimeout(() => {
     statusEl.textContent = '✓ Saved to Google Sheets';
     statusEl.className = 'closeout-status ok';
