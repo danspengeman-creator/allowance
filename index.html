@@ -192,7 +192,7 @@
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyp_G-RVBLN-JVHzV7TO78qS3bzTVC89zYGE2FmNj9m62uFC94iYsLCLDNahTD5xUQU/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcSiWPu0Ipue1P39H3qrWGWn96_3eH8TnptTT_EkAICIIc_NGJAoObMiV957GvSJh7/exec';
 const REQUIRED = 10;
 const CHORES = [
   {id:'laundry',   title:'Washing Clothes',       desc:'Put dirty clothes in the washer, add soap, and start it. Move to dryer when done.'},
@@ -250,11 +250,16 @@ async function loadFromSheets() {
     const url = SCRIPT_URL + '?action=read&weekOf=' + getWeekKey();
     const resp = await fetch(url);
     const data = await resp.json();
-    if (data.lillian) {
-      state.l = data.lillian.chores || {};
+    if (data.lillian && data.lillian.chores) {
+      // Convert "Yes"/"No" strings back to booleans
+      const lc = data.lillian.chores;
+      state.l = {};
+      Object.keys(lc).forEach(k => { state.l[k] = lc[k] === true || lc[k] === 'Yes'; });
     }
-    if (data.nolan) {
-      state.n = data.nolan.chores || {};
+    if (data.nolan && data.nolan.chores) {
+      const nc = data.nolan.chores;
+      state.n = {};
+      Object.keys(nc).forEach(k => { state.n[k] = nc[k] === true || nc[k] === 'Yes'; });
     }
     setSyncStatus('ok', 'Synced');
   } catch(e) {
