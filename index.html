@@ -258,7 +258,6 @@ async function loadFromSheets() {
     const url = SCRIPT_URL + '?action=read&weekOf=' + weekKey;
     const resp = await fetch(url);
     const raw = await resp.text();
-    showDebug('raw response: ' + raw.slice(0, 300));
     const data = JSON.parse(raw);
     showDebug('lillian: ' + JSON.stringify(data.lillian));
     showDebug('nolan: ' + JSON.stringify(data.nolan));
