@@ -7,155 +7,133 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
   :root {
-    --purple: #534AB7; --purple-light: #EEEDFE; --purple-mid: #7F77DD;
-    --teal: #0F6E56; --teal-light: #E1F5EE; --teal-mid: #1D9E75;
-    --amber: #9A5000; --amber-mid: #D4700A; --amber-light: #FAEEDA;
-    --green: #1a7a3a; --green-light: #E6F7ED;
-    --bg: #F7F6F2; --card: #FFFFFF; --text: #1a1a1a; --muted: #6b6b6b;
-    --border: rgba(0,0,0,0.08); --radius: 14px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+    --purple:#534AB7; --purple-light:#EEEDFE; --purple-mid:#7F77DD;
+    --teal:#0F6E56; --teal-light:#E1F5EE; --teal-mid:#1D9E75;
+    --amber:#9A5000; --amber-mid:#D4700A; --amber-light:#FAEEDA;
+    --green:#1a7a3a; --green-light:#E6F7ED;
+    --bg:#F7F6F2; --card:#FFFFFF; --text:#1a1a1a; --muted:#6b6b6b;
+    --border:rgba(0,0,0,0.08); --radius:14px;
+    --shadow:0 1px 3px rgba(0,0,0,0.07),0 4px 16px rgba(0,0,0,0.05);
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 3rem; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 3rem;}
 
-  header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1.1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-  .logo { font-family: 'DM Serif Display', serif; font-size: 1.25rem; color: var(--text); }
-  .logo span { color: var(--purple); }
-  .week-badge { font-size: 0.75rem; font-weight: 600; background: var(--amber-light); color: var(--amber); padding: 4px 10px; border-radius: 99px; }
+  header{background:var(--card);border-bottom:1px solid var(--border);padding:1.1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .logo{font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--text);}
+  .logo span{color:var(--purple);}
+  .header-right{display:flex;align-items:center;gap:8px;}
+  .week-badge{font-size:0.75rem;font-weight:600;background:var(--amber-light);color:var(--amber);padding:4px 10px;border-radius:99px;}
+  .sync-indicator{font-size:0.72rem;font-weight:600;padding:3px 9px;border-radius:99px;transition:all 0.3s;}
+  .sync-idle{background:#F0F0F0;color:var(--muted);}
+  .sync-saving{background:#FFF3CD;color:#856404;}
+  .sync-ok{background:var(--green-light);color:var(--green);}
+  .sync-err{background:#FFF0F0;color:#c0392b;}
 
-  .main { max-width: 760px; margin: 0 auto; padding: 1.5rem 1rem 0; }
+  .main{max-width:760px;margin:0 auto;padding:1.5rem 1rem 0;}
 
-  /* Setup banner */
-  .setup-banner { background: #FFF8F0; border: 1.5px solid #F0C88A; border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
-  .setup-banner h4 { font-size: 0.88rem; font-weight: 600; color: var(--amber); margin-bottom: 4px; }
-  .setup-banner p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
-  .setup-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .setup-input { flex: 1; min-width: 200px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; padding: 6px 10px; border: 1.5px solid #ddd; border-radius: 8px; outline: none; }
-  .setup-input:focus { border-color: var(--amber-mid); }
-  .setup-save-btn { padding: 6px 14px; background: var(--amber-mid); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
-  .setup-connected { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
-  .connected-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
-  .setup-change { font-size: 0.75rem; color: var(--muted); text-decoration: underline; cursor: pointer; margin-left: 4px; }
+  /* Loading overlay */
+  .loading-overlay{position:fixed;inset:0;background:rgba(247,246,242,0.92);z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+  .loading-overlay.hidden{display:none;}
+  .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin 0.7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-text{font-size:0.88rem;color:var(--muted);}
 
-  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; background: var(--card); border-radius: var(--radius); padding: 5px; box-shadow: var(--shadow); }
-  .tab-btn { flex: 1; padding: 0.6rem 1rem; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--muted); border-radius: 10px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .tab-btn.active-l { background: var(--purple-light); color: var(--purple); }
-  .tab-btn.active-n { background: var(--teal-light); color: var(--teal); }
-  .tab-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-l { background: var(--purple); } .dot-n { background: var(--teal); }
+  .tabs{display:flex;gap:6px;margin-bottom:1.25rem;background:var(--card);border-radius:var(--radius);padding:5px;box-shadow:var(--shadow);}
+  .tab-btn{flex:1;padding:0.6rem 1rem;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;color:var(--muted);border-radius:10px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .tab-btn.active-l{background:var(--purple-light);color:var(--purple);}
+  .tab-btn.active-n{background:var(--teal-light);color:var(--teal);}
+  .tab-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot-l{background:var(--purple);} .dot-n{background:var(--teal);}
 
-  .summary-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-  .summary-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.4rem; flex-shrink: 0; }
-  .avatar-l { background: var(--purple-light); color: var(--purple); }
-  .avatar-n { background: var(--teal-light); color: var(--teal); }
-  .summary-info { flex: 1; min-width: 120px; }
-  .summary-name { font-size: 1.15rem; font-weight: 600; margin-bottom: 2px; }
-  .summary-sub { font-size: 0.82rem; color: var(--muted); }
-  .summary-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .stat-block { text-align: center; }
-  .stat-val { font-family: 'DM Serif Display', serif; font-size: 1.6rem; line-height: 1; margin-bottom: 2px; }
-  .stat-val-l { color: var(--purple); } .stat-val-n { color: var(--teal); }
-  .stat-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .summary-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+  .summary-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.4rem;flex-shrink:0;}
+  .avatar-l{background:var(--purple-light);color:var(--purple);}
+  .avatar-n{background:var(--teal-light);color:var(--teal);}
+  .summary-info{flex:1;min-width:120px;}
+  .summary-name{font-size:1.15rem;font-weight:600;margin-bottom:2px;}
+  .summary-sub{font-size:0.82rem;color:var(--muted);}
+  .summary-stats{display:flex;gap:1rem;flex-wrap:wrap;}
+  .stat-block{text-align:center;}
+  .stat-val{font-family:'DM Serif Display',serif;font-size:1.6rem;line-height:1;margin-bottom:2px;}
+  .stat-val-l{color:var(--purple);} .stat-val-n{color:var(--teal);}
+  .stat-label{font-size:0.72rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:0.04em;}
 
-  .chore-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 1.25rem; }
-  .chore-item { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 12px; padding: 0.8rem 1rem; cursor: pointer; transition: background 0.15s, border-color 0.15s, transform 0.1s; border: 1.5px solid transparent; user-select: none; }
-  .chore-item:active { transform: scale(0.985); }
-  .chore-item.done-l { border-color: var(--purple-mid); background: var(--purple-light); }
-  .chore-item.done-n { border-color: var(--teal-mid); background: var(--teal-light); }
-  .chore-item.done-bonus { border-color: var(--amber-mid); background: var(--amber-light); }
-  .chore-check { width: 22px; height: 22px; border-radius: 6px; border: 2px solid #ccc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; background: white; }
-  .chore-item.done-l .chore-check { background: var(--purple); border-color: var(--purple); }
-  .chore-item.done-n .chore-check { background: var(--teal-mid); border-color: var(--teal-mid); }
-  .chore-item.done-bonus .chore-check { background: var(--amber-mid); border-color: var(--amber-mid); }
-  .checkmark { display: none; width: 12px; height: 12px; }
-  .chore-item.done-l .checkmark, .chore-item.done-n .checkmark, .chore-item.done-bonus .checkmark { display: block; }
-  .chore-text { flex: 1; }
-  .chore-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 2px; }
-  .chore-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
-  .chore-item.done-l .chore-title { color: var(--purple); }
-  .chore-item.done-n .chore-title { color: var(--teal); }
-  .chore-item.done-bonus .chore-title { color: var(--amber-mid); }
-  .bonus-pill { font-size: 0.68rem; font-weight: 700; background: var(--amber-light); color: var(--amber-mid); border: 1px solid #F0C88A; padding: 2px 8px; border-radius: 99px; flex-shrink: 0; white-space: nowrap; }
+  .chore-list{display:flex;flex-direction:column;gap:5px;margin-bottom:1.25rem;}
+  .chore-item{background:var(--card);border-radius:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;padding:0.8rem 1rem;cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.1s;border:1.5px solid transparent;user-select:none;}
+  .chore-item:active{transform:scale(0.985);}
+  .chore-item.done-l{border-color:var(--purple-mid);background:var(--purple-light);}
+  .chore-item.done-n{border-color:var(--teal-mid);background:var(--teal-light);}
+  .chore-item.done-bonus{border-color:var(--amber-mid);background:var(--amber-light);}
+  .chore-check{width:22px;height:22px;border-radius:6px;border:2px solid #ccc;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s;background:white;}
+  .chore-item.done-l .chore-check{background:var(--purple);border-color:var(--purple);}
+  .chore-item.done-n .chore-check{background:var(--teal-mid);border-color:var(--teal-mid);}
+  .chore-item.done-bonus .chore-check{background:var(--amber-mid);border-color:var(--amber-mid);}
+  .checkmark{display:none;width:12px;height:12px;}
+  .chore-item.done-l .checkmark,.chore-item.done-n .checkmark,.chore-item.done-bonus .checkmark{display:block;}
+  .chore-text{flex:1;}
+  .chore-title{font-size:0.95rem;font-weight:600;margin-bottom:2px;}
+  .chore-desc{font-size:0.8rem;color:var(--muted);line-height:1.4;}
+  .chore-item.done-l .chore-title{color:var(--purple);}
+  .chore-item.done-n .chore-title{color:var(--teal);}
+  .chore-item.done-bonus .chore-title{color:var(--amber-mid);}
+  .bonus-pill{font-size:0.68rem;font-weight:700;background:var(--amber-light);color:var(--amber-mid);border:1px solid #F0C88A;padding:2px 8px;border-radius:99px;flex-shrink:0;white-space:nowrap;}
 
-  .status-badge { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; margin-top: 5px; }
-  .badge-l { background: var(--purple-light); color: var(--purple); }
-  .badge-n { background: var(--teal-light); color: var(--teal); }
-  .badge-no { background: #F0F0F0; color: var(--muted); }
-  .badge-bonus { background: var(--amber-light); color: var(--amber-mid); }
+  .status-badge{display:inline-block;font-size:0.78rem;font-weight:600;padding:3px 10px;border-radius:99px;margin-top:5px;}
+  .badge-l{background:var(--purple-light);color:var(--purple);}
+  .badge-n{background:var(--teal-light);color:var(--teal);}
+  .badge-no{background:#F0F0F0;color:var(--muted);}
+  .badge-bonus{background:var(--amber-light);color:var(--amber-mid);}
 
-  .allowance-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
-  .allowance-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 0.75rem; }
-  .allowance-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
-  .allowance-row:last-child { border-bottom: none; font-weight: 600; }
-  .allowance-amt { font-weight: 600; }
-  .amt-bonus { color: var(--amber-mid); }
+  .allowance-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.25rem 1.5rem;margin-bottom:1rem;}
+  .allowance-title{font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:0.75rem;}
+  .allowance-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.88rem;}
+  .allowance-row:last-child{border-bottom:none;font-weight:600;}
+  .allowance-amt{font-weight:600;}
+  .amt-bonus{color:var(--amber-mid);}
 
-  /* Close out week card */
-  .closeout-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.1rem 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-  .closeout-info { flex: 1; }
-  .closeout-title { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; }
-  .closeout-sub { font-size: 0.78rem; color: var(--muted); }
-  .closeout-btn { padding: 0.6rem 1.1rem; background: var(--green); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
-  .closeout-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .closeout-btn.sending { opacity: 0.7; }
-  .closeout-status { font-size: 0.78rem; margin-top: 4px; }
-  .closeout-status.ok { color: var(--green); }
-  .closeout-status.err { color: #c0392b; }
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0.5rem;}
+  .ctrl-btn{padding:0.55rem 1rem;border-radius:8px;border:1.5px solid var(--border);background:var(--card);font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+  .ctrl-btn:hover{border-color:#aaa;color:var(--text);}
+  .ctrl-btn.danger{color:#c0392b;border-color:#f5c6c6;}
+  .ctrl-btn.danger:hover{background:#fff5f5;}
 
-  .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.5rem; }
-  .ctrl-btn { padding: 0.55rem 1rem; border-radius: 8px; border: 1.5px solid var(--border); background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .ctrl-btn:hover { border-color: #aaa; color: var(--text); }
-  .ctrl-btn.danger { color: #c0392b; border-color: #f5c6c6; }
-  .ctrl-btn.danger:hover { background: #fff5f5; }
+  .counter-bar-wrap{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);box-shadow:0 -2px 12px rgba(0,0,0,0.07);padding:0.6rem 1rem 0.75rem;z-index:50;}
+  .counter-bar-labels{display:flex;justify-content:space-between;font-size:0.7rem;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.04em;}
+  .cbl-req{color:var(--muted);} .cbl-bonus{color:var(--amber-mid);}
+  .counter-circles{display:flex;gap:0;align-items:center;width:100%;}
+  .c-circle{flex:1;aspect-ratio:1;max-width:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;border:2px solid #E0E0E0;background:#F5F5F5;color:#bbb;margin:0 2px;transition:background 0.2s,border-color 0.2s,color 0.2s,transform 0.15s;}
+  .c-circle.filled-req-l{background:var(--purple-light);border-color:var(--purple-mid);color:var(--purple);}
+  .c-circle.filled-req-n{background:var(--teal-light);border-color:var(--teal-mid);color:var(--teal);}
+  .c-circle.filled-bonus{background:var(--amber-light);border-color:var(--amber-mid);color:var(--amber-mid);transform:scale(1.08);}
+  .c-circle.threshold{border-style:dashed;border-color:#bbb;}
+  .bar-spacer{height:90px;}
 
-  /* Counter bar */
-  .counter-bar-wrap { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); box-shadow: 0 -2px 12px rgba(0,0,0,0.07); padding: 0.6rem 1rem 0.75rem; z-index: 50; }
-  .counter-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; font-weight: 600; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
-  .cbl-req { color: var(--muted); } .cbl-bonus { color: var(--amber-mid); }
-  .counter-circles { display: flex; gap: 0; align-items: center; width: 100%; }
-  .c-circle { flex: 1; aspect-ratio: 1; max-width: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; border: 2px solid #E0E0E0; background: #F5F5F5; color: #bbb; margin: 0 2px; transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s; }
-  .c-circle.filled-req-l { background: var(--purple-light); border-color: var(--purple-mid); color: var(--purple); }
-  .c-circle.filled-req-n { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
-  .c-circle.filled-bonus { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber-mid); transform: scale(1.08); }
-  .c-circle.threshold { border-style: dashed; border-color: #bbb; }
-  .bar-spacer { height: 90px; }
-
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: center; justify-content: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--card); border-radius: var(--radius); padding: 1.75rem; max-width: 360px; width: 90%; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
-  .modal h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 0.5rem; }
-  .modal p { font-size: 0.88rem; color: var(--muted); line-height: 1.5; margin-bottom: 1.25rem; }
-  .modal-btns { display: flex; gap: 8px; justify-content: flex-end; }
-  .modal-btns button { padding: 0.55rem 1.1rem; border-radius: 8px; border: 1.5px solid var(--border); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; cursor: pointer; background: var(--card); color: var(--text); }
-  .modal-btns .confirm-reset { background: #c0392b; color: white; border-color: #c0392b; }
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:200;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--card);border-radius:var(--radius);padding:1.75rem;max-width:360px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
+  .modal h3{font-family:'DM Serif Display',serif;font-size:1.3rem;margin-bottom:0.5rem;}
+  .modal p{font-size:0.88rem;color:var(--muted);line-height:1.5;margin-bottom:1.25rem;}
+  .modal-btns{display:flex;gap:8px;justify-content:flex-end;}
+  .modal-btns button{padding:0.55rem 1.1rem;border-radius:8px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;background:var(--card);color:var(--text);}
+  .modal-btns .confirm-reset{background:#c0392b;color:white;border-color:#c0392b;}
 </style>
 </head>
 <body>
 
+<div class="loading-overlay" id="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading this week's chores…</div>
+</div>
+
 <header>
   <div class="logo">Spengeman <span>Chores</span></div>
-  <div class="week-badge" id="week-label">Week of —</div>
+  <div class="header-right">
+    <div class="sync-indicator sync-idle" id="sync-indicator">Synced</div>
+    <div class="week-badge" id="week-label">Week of —</div>
+  </div>
 </header>
 
 <div class="main">
-
-  <!-- Google Sheets setup banner -->
-  <div class="setup-banner" id="setup-banner">
-    <h4>📊 Connect to Google Sheets</h4>
-    <p>Paste your Apps Script Web App URL below to enable automatic weekly history logging.</p>
-    <div class="setup-row">
-      <input class="setup-input" id="script-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec">
-      <button class="setup-save-btn" onclick="saveScriptUrl()">Save</button>
-    </div>
-  </div>
-  <div class="setup-banner" id="connected-banner" style="display:none; background:var(--green-light); border-color:#8BC4A0;">
-    <div class="setup-connected">
-      <div class="connected-dot"></div>
-      <span style="font-size:0.85rem; font-weight:600; color:var(--green);">Google Sheets connected</span>
-      <span class="setup-change" onclick="changeScriptUrl()">change</span>
-    </div>
-  </div>
-
   <div class="tabs">
     <button class="tab-btn active-l" onclick="switchKid('l')" id="tab-l"><span class="tab-dot dot-l"></span> Lillian</button>
     <button class="tab-btn" onclick="switchKid('n')" id="tab-n"><span class="tab-dot dot-n"></span> Nolan</button>
@@ -185,26 +163,15 @@
     <div class="allowance-row"><span>This week</span><span class="allowance-amt" id="allowance-this-week">—</span></div>
   </div>
 
-  <!-- Close out week -->
-  <div class="closeout-card">
-    <div class="closeout-info">
-      <div class="closeout-title">Close out this week</div>
-      <div class="closeout-sub" id="closeout-sub">Logs both kids' results to Google Sheets and resets the tracker.</div>
-      <div class="closeout-status" id="closeout-status"></div>
-    </div>
-    <button class="closeout-btn" id="closeout-btn" onclick="closeOutWeek()">Save & Reset Week</button>
-  </div>
-
   <div class="controls">
     <button class="ctrl-btn" onclick="checkAll()">Check all</button>
     <button class="ctrl-btn" onclick="uncheckAll()">Uncheck all</button>
-    <button class="ctrl-btn danger" onclick="openResetModal()">↺ Reset without saving</button>
+    <button class="ctrl-btn danger" onclick="openResetModal()">↺ Reset week</button>
   </div>
 
   <div class="bar-spacer"></div>
 </div>
 
-<!-- Counter bar -->
 <div class="counter-bar-wrap">
   <div class="counter-bar-labels">
     <span class="cbl-req" id="cbl-req">Required — 0 of 10</span>
@@ -213,138 +180,121 @@
   <div class="counter-circles" id="counter-circles"></div>
 </div>
 
-<!-- Reset modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <h3>Reset without saving?</h3>
-    <p>This clears all chore completions for both kids without logging to Google Sheets. Use "Save & Reset Week" instead if you want to keep a record.</p>
+    <h3>Reset this week?</h3>
+    <p>This clears all chore completions for both kids for the current week in Google Sheets. This cannot be undone.</p>
     <div class="modal-btns">
       <button onclick="closeResetModal()">Cancel</button>
-      <button class="confirm-reset" onclick="confirmReset()">Reset anyway</button>
+      <button class="confirm-reset" onclick="confirmReset()">Yes, reset</button>
     </div>
   </div>
 </div>
 
 <script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6xdDO-vJAG3f3-qCXbBI483X0o8t-6RBMUJsoB_ZLh46APzlXy-avOSlFf_BS/exec';
 const REQUIRED = 10;
 const CHORES = [
-  { id:"laundry",   title:"Washing Clothes",        desc:"Put dirty clothes in the washer, add soap, and start it. Move to dryer when done." },
-  { id:"dishes",    title:"Cleaning Dishes",         desc:"Rinse dishes and load the dishwasher, or hand-wash if needed. Wipe the sink after." },
-  { id:"clothes",   title:"Put Clothes Away",        desc:"Take clean clothes from the basket and fold them into the right drawers or closet." },
-  { id:"breakfast", title:"Make Own Breakfast",      desc:"Choose something simple, make it yourself, and clean up everything you used." },
-  { id:"lunchbox",  title:"Unpack Lunch Box",        desc:"Empty your lunch box after school, throw away trash, and put containers in the sink." },
-  { id:"trash",     title:"Bring Trash Out & In",    desc:"Roll the trash can to the curb on pickup day and bring it back in once emptied." },
-  { id:"recycle",   title:"Recycling Out & In",      desc:"Roll the recycling bin out on pickup day and bring it back in after pickup." },
-  { id:"mirrors",   title:"Clean Mirrors",           desc:"Spray bathroom and other mirrors with cleaner and wipe until streak-free." },
-  { id:"plants",    title:"Plant Watering",          desc:"Water all indoor plants until the soil is damp — don't overwater." },
-  { id:"tables",    title:"Wipe Down Tables",        desc:"Use a damp cloth to wipe the kitchen table and any outdoor tables clean." },
-  { id:"tidy",      title:"Straighten Up",           desc:"Tidy the common areas — pick up anything out of place and put it where it belongs." },
-  { id:"sheets",    title:"Sheet Laundry Help",      desc:"Help strip the sheets off the bed, put them in the washer, and help remake the bed." },
-  { id:"yard",      title:"Clean Up the Yard",       desc:"Pick up toys, ride-ons, and anything left outside and put them back where they belong." },
+  {id:'laundry',   title:'Washing Clothes',       desc:'Put dirty clothes in the washer, add soap, and start it. Move to dryer when done.'},
+  {id:'dishes',    title:'Cleaning Dishes',        desc:'Rinse dishes and load the dishwasher, or hand-wash if needed. Wipe the sink after.'},
+  {id:'clothes',   title:'Put Clothes Away',       desc:'Take clean clothes from the basket and fold them into the right drawers or closet.'},
+  {id:'breakfast', title:'Make Own Breakfast',     desc:'Choose something simple, make it yourself, and clean up everything you used.'},
+  {id:'lunchbox',  title:'Unpack Lunch Box',       desc:'Empty your lunch box after school, throw away trash, and put containers in the sink.'},
+  {id:'trash',     title:'Bring Trash Out & In',   desc:'Roll the trash can to the curb on pickup day and bring it back in once emptied.'},
+  {id:'recycle',   title:'Recycling Out & In',     desc:'Roll the recycling bin out on pickup day and bring it back in after pickup.'},
+  {id:'mirrors',   title:'Clean Mirrors',          desc:'Spray bathroom and other mirrors with cleaner and wipe until streak-free.'},
+  {id:'plants',    title:'Plant Watering',         desc:'Water all indoor plants until the soil is damp — don\'t overwater.'},
+  {id:'tables',    title:'Wipe Down Tables',       desc:'Use a damp cloth to wipe the kitchen table and any outdoor tables clean.'},
+  {id:'tidy',      title:'Straighten Up',          desc:'Tidy the common areas — pick up anything out of place and put it where it belongs.'},
+  {id:'sheets',    title:'Sheet Laundry Help',     desc:'Help strip the sheets off the bed, put them in the washer, and help remake the bed.'},
+  {id:'yard',      title:'Clean Up the Yard',      desc:'Pick up toys, ride-ons, and anything left outside and put them back where they belong.'},
 ];
 const TOTAL = CHORES.length;
-const BONUS_PER = (7 - 5) / (TOTAL - REQUIRED);
+const BONUS_PER = 2 / 3;
 
 const KIDS = {
-  l: { name:"Lillian", initial:"L", avatarClass:"avatar-l", statClass:"stat-val-l", doneClass:"done-l", fillReqClass:"filled-req-l", badgeClass:"badge-l" },
-  n: { name:"Nolan",   initial:"N", avatarClass:"avatar-n", statClass:"stat-val-n", doneClass:"done-n", fillReqClass:"filled-req-n", badgeClass:"badge-n" },
+  l:{name:'Lillian',initial:'L',avatarClass:'avatar-l',statClass:'stat-val-l',doneClass:'done-l',fillReqClass:'filled-req-l',badgeClass:'badge-l'},
+  n:{name:'Nolan',  initial:'N',avatarClass:'avatar-n',statClass:'stat-val-n',doneClass:'done-n',fillReqClass:'filled-req-n',badgeClass:'badge-n'},
 };
 
-// State lives only in memory — loaded from sessionStorage so same-tab refreshes survive,
-// but each new session starts fresh (forcing a reload from Sheets isn't needed for a tracker).
-// We use sessionStorage for current week state and localStorage only for the script URL.
-let state = { l:{}, n:{} };
+// In-memory state — always loaded from Sheets on open
+let state = {l:{},n:{}};
 let currentKid = 'l';
+let syncTimer = null;
 
+// ── Week helpers ──────────────────────────────────────────────────────────────
 function getWeekKey() {
   const now = new Date(), day = now.getDay();
   const sun = new Date(now); sun.setDate(now.getDate() - day);
   return sun.toISOString().slice(0,10);
 }
 function getWeekLabel() {
-  const d = new Date(getWeekKey() + 'T00:00:00'), end = new Date(d); end.setDate(d.getDate()+6);
+  const d = new Date(getWeekKey()+'T00:00:00'), end = new Date(d);
+  end.setDate(d.getDate()+6);
   const o = {month:'short',day:'numeric'};
-  return d.toLocaleDateString('en-US',o) + ' – ' + end.toLocaleDateString('en-US',o);
+  return d.toLocaleDateString('en-US',o)+' – '+end.toLocaleDateString('en-US',o);
 }
 
-// Persist current-week state in sessionStorage (so same browser keeps state mid-week)
-function saveState() {
-  sessionStorage.setItem('spengeman_state_v1', JSON.stringify({ weekKey: getWeekKey(), state }));
-}
-function loadState() {
-  const s = sessionStorage.getItem('spengeman_state_v1');
-  if (s) { const p = JSON.parse(s); if (p.weekKey === getWeekKey()) { state = p.state; return; } }
-  state = { l:{}, n:{} };
+// ── Sync indicator ────────────────────────────────────────────────────────────
+function setSyncStatus(status, text) {
+  const el = document.getElementById('sync-indicator');
+  el.className = 'sync-indicator sync-' + status;
+  el.textContent = text;
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6xdDO-vJAG3f3-qCXbBI483X0o8t-6RBMUJsoB_ZLh46APzlXy-avOSlFf_BS/exec';
-function getScriptUrl() { return SCRIPT_URL; }
-function renderSetupBanner() {
-  document.getElementById('setup-banner').style.display = 'none';
-  document.getElementById('connected-banner').style.display = 'block';
-  document.getElementById('closeout-btn').disabled = false;
+// ── Read from Sheets on load ──────────────────────────────────────────────────
+async function loadFromSheets() {
+  document.getElementById('loading-overlay').classList.remove('hidden');
+  setSyncStatus('saving', 'Loading…');
+  try {
+    const url = SCRIPT_URL + '?action=read&weekOf=' + getWeekKey();
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.lillian) {
+      state.l = data.lillian.chores || {};
+    }
+    if (data.nolan) {
+      state.n = data.nolan.chores || {};
+    }
+    setSyncStatus('ok', 'Synced');
+  } catch(e) {
+    setSyncStatus('err', 'Offline');
+  }
+  document.getElementById('loading-overlay').classList.add('hidden');
+  renderTab();
 }
 
-function countDone(kid) { return CHORES.filter(c => state[kid][c.id]).length; }
-function calcEarned(done) { if (done < REQUIRED) return 0; return +(5 + Math.max(0, done - REQUIRED) * BONUS_PER).toFixed(2); }
+// ── Write to Sheets (debounced 800ms after last tap) ─────────────────────────
+function scheduleSync(kid) {
+  setSyncStatus('saving', 'Saving…');
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => syncKid(kid), 800);
+}
 
-// Build flat URL params for one kid — more reliable than JSON in query string
-function buildKidParams(kid) {
-  const done = countDone(kid);
-  const earned = calcEarned(done);
+async function syncKid(kid) {
   const params = new URLSearchParams();
+  params.set('action', 'write');
   params.set('kid', KIDS[kid].name);
   params.set('weekOf', getWeekKey());
   params.set('weekLabel', getWeekLabel());
-  params.set('choresDone', done);
-  params.set('passed', done >= REQUIRED ? 'Yes' : 'No');
-  params.set('allowanceEarned', done >= REQUIRED ? '$' + earned.toFixed(2) : '$0.00');
-  CHORES.forEach(c => { params.set('chore_' + c.id, state[kid][c.id] ? 'Yes' : 'No'); });
-  return params.toString();
+  CHORES.forEach(c => params.set('chore_' + c.id, state[kid][c.id] ? 'Yes' : 'No'));
+  try {
+    const resp = await fetch(SCRIPT_URL + '?' + params.toString());
+    await resp.json();
+    setSyncStatus('ok', 'Synced');
+  } catch(e) {
+    setSyncStatus('err', 'Sync failed — tap a chore to retry');
+  }
 }
 
-function closeOutWeek() {
-  const url = getScriptUrl();
-  if (!url) return;
-  const btn = document.getElementById('closeout-btn');
-  const statusEl = document.getElementById('closeout-status');
-  btn.disabled = true;
-  btn.classList.add('sending');
-  btn.textContent = 'Saving…';
-  statusEl.textContent = '';
-  statusEl.className = 'closeout-status';
-
-  // Send each kid as a separate iframe request with flat URL params
-  ['l', 'n'].forEach((kid, i) => {
-    setTimeout(() => {
-      const iframeId = 'submit-iframe-' + kid;
-      let iframe = document.getElementById(iframeId);
-      if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.id = iframeId;
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-      }
-      iframe.src = url + '?' + buildKidParams(kid);
-    }, i * 500); // stagger by 500ms so they don't collide
-  });
-
-  // Give Apps Script up to 10 seconds to write both rows
-  setTimeout(() => {
-    statusEl.textContent = '✓ Saved to Google Sheets';
-    statusEl.className = 'closeout-status ok';
-    state = { l:{}, n:{} };
-    saveState();
-    renderTab();
-    setTimeout(() => {
-      statusEl.textContent = '';
-      btn.textContent = 'Save & Reset Week';
-      btn.disabled = false;
-      btn.classList.remove('sending');
-    }, 2000);
-  }, 8000);
+// ── Calculations ──────────────────────────────────────────────────────────────
+function countDone(kid) { return CHORES.filter(c => state[kid][c.id]).length; }
+function calcEarned(done) {
+  if (done < REQUIRED) return 0;
+  return +(5 + Math.max(0, done - REQUIRED) * BONUS_PER).toFixed(2);
 }
 
+// ── Render ────────────────────────────────────────────────────────────────────
 function renderWeekLabel() {
   document.getElementById('week-label').textContent = 'Week of ' + getWeekLabel();
 }
@@ -367,7 +317,7 @@ function renderTab() {
   document.getElementById('stat-left').textContent = TOTAL - done;
   const se = document.getElementById('stat-earn');
   se.className = 'stat-val ' + k.statClass;
-  se.textContent = done >= REQUIRED ? '$' + earned.toFixed(2) : '$0';
+  se.textContent = done >= REQUIRED ? '$'+earned.toFixed(2) : '$0';
 
   const bw = document.getElementById('status-badge-wrap');
   if (done >= REQUIRED && bonusDone > 0) {
@@ -379,7 +329,7 @@ function renderTab() {
   }
 
   document.getElementById('allowance-this-week').textContent =
-    done >= REQUIRED ? '$' + earned.toFixed(2) : 'Not yet earned';
+    done >= REQUIRED ? '$'+earned.toFixed(2) : 'Not yet earned';
 
   const checkedIds = CHORES.filter(c => state[kid][c.id]).map(c => c.id);
   const bonusIds = new Set(checkedIds.slice(REQUIRED));
@@ -390,7 +340,7 @@ function renderTab() {
     const isBonus = checked && bonusIds.has(c.id);
     const item = document.createElement('div');
     let cls = 'chore-item';
-    if (checked) cls += isBonus ? ' done-bonus' : ' ' + k.doneClass;
+    if (checked) cls += isBonus ? ' done-bonus' : ' '+k.doneClass;
     item.className = cls;
     item.setAttribute('role','checkbox'); item.setAttribute('aria-checked', checked);
     item.onclick = () => toggleChore(c.id);
@@ -414,9 +364,9 @@ function renderTab() {
   for (let i = 0; i < TOTAL; i++) {
     const div = document.createElement('div');
     let cls = 'c-circle';
-    if (i < done) cls += i < REQUIRED ? ' ' + k.fillReqClass : ' filled-bonus';
-    else if (i === REQUIRED - 1) cls += ' threshold';
-    div.className = cls; div.textContent = i + 1;
+    if (i < done) cls += i < REQUIRED ? ' '+k.fillReqClass : ' filled-bonus';
+    else if (i === REQUIRED-1) cls += ' threshold';
+    div.className = cls; div.textContent = i+1;
     circles.appendChild(div);
   }
 
@@ -425,19 +375,38 @@ function renderTab() {
   document.getElementById('cbl-bonus').textContent =
     bonusDone > 0 ? `+${bonusDone} bonus chore${bonusDone!==1?'s':''}` : `Bonus after ${REQUIRED}`;
 
-  document.getElementById('tab-l').className = 'tab-btn' + (kid==='l'?' active-l':'');
-  document.getElementById('tab-n').className = 'tab-btn' + (kid==='n'?' active-n':'');
+  document.getElementById('tab-l').className = 'tab-btn'+(kid==='l'?' active-l':'');
+  document.getElementById('tab-n').className = 'tab-btn'+(kid==='n'?' active-n':'');
 }
 
-function toggleChore(id) { state[currentKid][id] = !state[currentKid][id]; saveState(); renderTab(); }
+// ── Actions ───────────────────────────────────────────────────────────────────
+function toggleChore(id) {
+  state[currentKid][id] = !state[currentKid][id];
+  renderTab();
+  scheduleSync(currentKid);
+}
 function switchKid(kid) { currentKid = kid; renderTab(); }
-function checkAll() { CHORES.forEach(c => { state[currentKid][c.id] = true; }); saveState(); renderTab(); }
-function uncheckAll() { CHORES.forEach(c => { state[currentKid][c.id] = false; }); saveState(); renderTab(); }
+function checkAll() {
+  CHORES.forEach(c => { state[currentKid][c.id] = true; });
+  renderTab(); scheduleSync(currentKid);
+}
+function uncheckAll() {
+  CHORES.forEach(c => { state[currentKid][c.id] = false; });
+  renderTab(); scheduleSync(currentKid);
+}
 function openResetModal() { document.getElementById('modal').classList.add('open'); }
 function closeResetModal() { document.getElementById('modal').classList.remove('open'); }
-function confirmReset() { state={l:{},n:{}}; saveState(); closeResetModal(); renderTab(); }
+async function confirmReset() {
+  state = {l:{},n:{}};
+  closeResetModal();
+  renderTab();
+  await syncKid('l');
+  await syncKid('n');
+}
 
-loadState(); renderWeekLabel(); renderSetupBanner(); renderTab();
+// ── Boot ──────────────────────────────────────────────────────────────────────
+renderWeekLabel();
+loadFromSheets();
 </script>
 </body>
 </html>
