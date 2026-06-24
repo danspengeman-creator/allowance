@@ -259,19 +259,15 @@ async function loadFromSheets() {
     const resp = await fetch(url);
     const raw = await resp.text();
     const data = JSON.parse(raw);
-    showDebug('lillian: ' + JSON.stringify(data.lillian));
-    showDebug('nolan: ' + JSON.stringify(data.nolan));
     if (data.lillian && data.lillian.chores) {
       const lc = data.lillian.chores;
       state.l = {};
       Object.keys(lc).forEach(k => { state.l[k] = lc[k] === true || lc[k] === 'Yes'; });
-      showDebug('state.l: ' + JSON.stringify(state.l));
     }
     if (data.nolan && data.nolan.chores) {
       const nc = data.nolan.chores;
       state.n = {};
       Object.keys(nc).forEach(k => { state.n[k] = nc[k] === true || nc[k] === 'Yes'; });
-      showDebug('state.n: ' + JSON.stringify(state.n));
     }
     setSyncStatus('ok', 'Synced');
   } catch(e) {
