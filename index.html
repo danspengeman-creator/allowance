@@ -254,10 +254,8 @@ async function loadFromSheets() {
   document.getElementById('loading-overlay').classList.remove('hidden');
   setSyncStatus('saving', 'Loading…');
   const weekKey = getWeekKey();
-  showDebug('weekKey: ' + weekKey);
   try {
     const url = SCRIPT_URL + '?action=read&weekOf=' + weekKey;
-    showDebug('fetching: ' + url);
     const resp = await fetch(url);
     const raw = await resp.text();
     showDebug('raw response: ' + raw.slice(0, 300));
@@ -278,7 +276,6 @@ async function loadFromSheets() {
     }
     setSyncStatus('ok', 'Synced');
   } catch(e) {
-    showDebug('ERROR: ' + e.message);
     setSyncStatus('err', 'Offline');
   }
   document.getElementById('loading-overlay').classList.add('hidden');
@@ -423,18 +420,6 @@ async function confirmReset() {
   renderTab();
   await syncKid('l');
   await syncKid('n');
-}
-
-// ── Debug panel ──────────────────────────────────────────────────────────────
-function showDebug(msg) {
-  let el = document.getElementById('debug-panel');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'debug-panel';
-    el.style.cssText = 'position:fixed;top:60px;right:8px;background:#111;color:#0f0;font:11px monospace;padding:8px 10px;border-radius:8px;z-index:9999;max-width:320px;word-break:break-all;white-space:pre-wrap;max-height:280px;overflow-y:auto;';
-    document.body.appendChild(el);
-  }
-  el.textContent += msg + '\n';
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
