@@ -253,23 +253,32 @@ function setSyncStatus(status, text) {
 async function loadFromSheets() {
   document.getElementById('loading-overlay').classList.remove('hidden');
   setSyncStatus('saving', 'Loading…');
+  const weekKey = getWeekKey();
+  showDebug('weekKey: ' + weekKey);
   try {
-    const url = SCRIPT_URL + '?action=read&weekOf=' + getWeekKey();
+    const url = SCRIPT_URL + '?action=read&weekOf=' + weekKey;
+    showDebug('fetching: ' + url);
     const resp = await fetch(url);
-    const data = await resp.json();
+    const raw = await resp.text();
+    showDebug('raw response: ' + raw.slice(0, 300));
+    const data = JSON.parse(raw);
+    showDebug('lillian: ' + JSON.stringify(data.lillian));
+    showDebug('nolan: ' + JSON.stringify(data.nolan));
     if (data.lillian && data.lillian.chores) {
-      // Convert "Yes"/"No" strings back to booleans
       const lc = data.lillian.chores;
       state.l = {};
       Object.keys(lc).forEach(k => { state.l[k] = lc[k] === true || lc[k] === 'Yes'; });
+      showDebug('state.l: ' + JSON.stringify(state.l));
     }
     if (data.nolan && data.nolan.chores) {
       const nc = data.nolan.chores;
       state.n = {};
       Object.keys(nc).forEach(k => { state.n[k] = nc[k] === true || nc[k] === 'Yes'; });
+      showDebug('state.n: ' + JSON.stringify(state.n));
     }
     setSyncStatus('ok', 'Synced');
   } catch(e) {
+    showDebug('ERROR: ' + e.message);
     setSyncStatus('err', 'Offline');
   }
   document.getElementById('loading-overlay').classList.add('hidden');
@@ -414,6 +423,18 @@ async function confirmReset() {
   renderTab();
   await syncKid('l');
   await syncKid('n');
+}
+
+// ── Debug panel ──────────────────────────────────────────────────────────────
+function showDebug(msg) {
+  let el = document.getElementById('debug-panel');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'debug-panel';
+    el.style.cssText = 'position:fixed;top:60px;right:8px;background:#111;color:#0f0;font:11px monospace;padding:8px 10px;border-radius:8px;z-index:9999;max-width:320px;word-break:break-all;white-space:pre-wrap;max-height:280px;overflow-y:auto;';
+    document.body.appendChild(el);
+  }
+  el.textContent += msg + '\n';
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
